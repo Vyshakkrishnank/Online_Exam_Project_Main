@@ -150,7 +150,7 @@ namespace Online_Exam_Project_Main.Controllers
                         
 
                         Session["candidate_name"] = log.candidate_name;
-
+                        Session["candidate_id"] = log.candidate_id;
 
                         return RedirectToAction("Index", "SelectExam");
                     }
@@ -172,7 +172,7 @@ namespace Online_Exam_Project_Main.Controllers
         public ActionResult Logout()
         {
             Session.Clear();
-            return RedirectToAction("home", "Home");
+            return RedirectToAction("home", "Home"); 
 
 
         }

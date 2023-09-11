@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
 using Online_Exam_Project_Main.Models;
@@ -86,13 +87,15 @@ namespace Online_Exam_Project_Main.Controllers
                 return RedirectToAction("Create","Result");
 
             }
-            int qId = (int)aaa.qus_id + 1;
+            //int ques_id = (int)aaa.qus_id;
+            int qId = (int)aaa.qus_id+1;
             Questions_tbl SingleQuestion = db.Questions_tbl.SingleOrDefault(m => m.qus_id == qId && m.exam_id == aaa.exam_id);
-            
-            
+
+
             ViewBag.questionNo = qId;
             TempData["a"] = SingleQuestion.qus_id;
             TempData["qData"] = SingleQuestion;
+
             return RedirectToAction("NextQuestion");
 
         }

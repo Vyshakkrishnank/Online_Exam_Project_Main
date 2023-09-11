@@ -2,17 +2,66 @@
 
 @{
     ViewBag.Title = "Index";
-    //Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<button>@Html.ActionLink("Logout", "Logout", "Candidate")</button>
+
+<style>
+    /* Logout button */
+    .logout-button {
+        margin-bottom: 10px;
+        background-color: lightgray;
+        color: white;
+        border: 2px solid #D3D3D3;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+        .logout-button:hover {
+            background-color: white;
+            color: lightgray;
+        }
+
+    /* Dropdown */
+    .custom-dropdown {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+    }
+
+        .custom-dropdown option {
+            background-color: white;
+            color: #333;
+        }
+
+    /* Submit button */
+    .custom-submit-button {
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+        .custom-submit-button:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+<button class="logout-button">@Html.ActionLink("Logout", "Logout", "Candidate")</button>
 <h2>Select Exam</h2>
 
 <div class="col-md-6">
-
     @using (Html.BeginForm("Index", "ShowQuestion", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
-        
+
         <div class="form-horizontal">
 
             <hr />
@@ -23,38 +72,34 @@
             <div class="form-group">
                 @Html.Label("Exam ID", new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @*@Html.DropDownList("item1", ViewBag.name as SelectList, "Select Exam")*@
-
-                    @Html.DropDownListFor(m => m.examid, new SelectList(Model.Examlist, "exam_id", "exam_title"), "Select Exam")
-
+                    @Html.DropDownListFor(m => m.examid, new SelectList(Model.Examlist, "exam_id", "exam_title"), "Select Exam", new { @class = "custom-dropdown" })
 
                     @Html.ValidationMessageFor(model => model.exam_title)
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group"style="margin-top: 10px;">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Start Exam" class="btn btn-default" />
-
+                    <input type="submit" value="Start Exam" class="btn custom-submit-button" />
                 </div>
             </div>
         </div>
     }
 </div>
 
-<div class="col-md-6">
-    
+<div class="col-md-6" style="margin-top:10px;">
     <h2 style="color: #00bfff"> <u>Rules</u></h2>
-    
     <h3 style="color:#000000">
-        <ul>
-            <li>For each question you have only 1 minute.</li><br>
-            <li>If you want you can pass any question</li><br>
-            <li>For each correct answer you will get 1 point</li>
+        <ul style="font-size:20px;">
+            <li>For each question, you have only 1 minute.</li>
+            <br>
+            <li>If you want, you can pass any question.</li>
+            <br>
+            <li>For each correct answer, you will get 1 point.</li>
         </ul>
     </h3>
 </div>
-<br>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
