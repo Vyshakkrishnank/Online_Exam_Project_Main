@@ -66,7 +66,7 @@ namespace Online_Exam_Project_Main.Controllers
             Session["quality"] = ViewBag.quality;
 
             ViewBag.candidate_id = 1;
-            ViewBag.exam_id = 1;
+            ViewBag.exam_id = Session["exid"];
             return View();
         }
 
