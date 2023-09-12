@@ -5,39 +5,63 @@
 }
 
 <style>
-    /* Logout button */
-    .logout-button {
-        margin-bottom: 10px;
-        background-color: lightgray;
+    /* General Styles */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+    }
+
+    /* Header Styles */
+    .header {
+        background-color: #007BFF;
         color: white;
-        border: 2px solid #D3D3D3;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .logout-button {
+        background-color: #D3D3D3;
+        color: white;
+        border: none;
         border-radius: 5px;
         padding: 10px 20px;
         font-size: 16px;
         cursor: pointer;
         transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        float: right;
+        margin-top: 10px;
+        margin-right: 20px;
     }
 
         .logout-button:hover {
-            background-color: white;
-            color: lightgray;
+            background-color: #555;
         }
 
-    /* Dropdown */
+    /* Content Styles */
+    .container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        margin: 20px auto;
+        max-width: 800px;
+    }
+
+    h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    /* Form Styles */
     .custom-dropdown {
         width: 100%;
         padding: 10px;
         font-size: 16px;
         border: 2px solid #ccc;
         border-radius: 5px;
+        margin-top: 5px;
     }
 
-        .custom-dropdown option {
-            background-color: white;
-            color: #333;
-        }
-
-    /* Submit button */
     .custom-submit-button {
         background-color: #007BFF;
         color: white;
@@ -52,54 +76,75 @@
         .custom-submit-button:hover {
             background-color: #0056b3;
         }
+
+    /* Rules Styles */
+    .rules-container {
+        background-color: #FFF;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    .rule-title {
+        color: #007BFF;
+        font-size: 20px;
+        text-decoration: underline;
+    }
+
+    ul {
+        list-style-type: disc;
+        padding-left: 20px;
+    }
+
+    li {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
 </style>
 
-<button class="logout-button">@Html.ActionLink("Logout", "Logout", "Candidate")</button>
-<h2>Select Exam</h2>
+<div class="header">
+    <button class="logout-button">@Html.ActionLink("Logout", "Logout", "Candidate")</button>
+    <h2>Select Exam</h2>
+</div>
 
-<div class="col-md-6">
-    @using (Html.BeginForm("Index", "ShowQuestion", FormMethod.Post))
-    {
-        @Html.AntiForgeryToken()
+<div class="container">
+    <div class="col-md-6">
+        @using (Html.BeginForm("Index", "ShowQuestion", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
+            <div class="form-horizontal">
+                <hr />
+                @Html.ValidationSummary(true)
 
-            <hr />
-            @Html.ValidationSummary(true)
+                @Html.HiddenFor(m => m.QuestionNo, 1)
 
-            @Html.HiddenFor(m => m.QuestionNo, 1)
+                <div class="form-group">
+                    @Html.Label("Exam ID", new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(m => m.examid, new SelectList(Model.Examlist, "exam_id", "exam_title"), "Select Exam", new { @class = "custom-dropdown" })
+                        @Html.ValidationMessageFor(model => model.exam_title)
+                    </div>
+                </div>
 
-            <div class="form-group">
-                @Html.Label("Exam ID", new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(m => m.examid, new SelectList(Model.Examlist, "exam_id", "exam_title"), "Select Exam", new { @class = "custom-dropdown" })
-
-                    @Html.ValidationMessageFor(model => model.exam_title)
+                <div class="form-group" style="margin-top: 10px;">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Start Exam" class="btn custom-submit-button" />
+                    </div>
                 </div>
             </div>
+        }
+    </div>
 
-            <div class="form-group"style="margin-top: 10px;">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Start Exam" class="btn custom-submit-button" />
-                </div>
-            </div>
+    <div class="col-md-6">
+        <div class="rules-container">
+            <h2 class="rule-title">Rules</h2>
+            <ul>
+                <li>For each question, you have only 1 minute.</li>
+                <li>If you want, you can pass any question.</li>
+                <li>For each correct answer, you will get 1 point.</li>
+            </ul>
         </div>
-    }
+    </div>
 </div>
-
-<div class="col-md-6" style="margin-top:10px;">
-    <h2 style="color: #00bfff"> <u>Rules</u></h2>
-    <h3 style="color:#000000">
-        <ul style="font-size:20px;">
-            <li>For each question, you have only 1 minute.</li>
-            <br>
-            <li>If you want, you can pass any question.</li>
-            <br>
-            <li>For each correct answer, you will get 1 point.</li>
-        </ul>
-    </h3>
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
