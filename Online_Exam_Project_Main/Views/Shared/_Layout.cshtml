@@ -115,11 +115,11 @@
     <div class="container-fluid">
         @if (Session["admin_name"] != null)
         {
-                <div class="navbar">
-                    <a href="@Url.Action("AdminProfile", "Admin")">Home</a>
-                    <button class="logout-button">@Html.ActionLink("Logout", "Logout", "Admin")</button>
-                </div>
-                <div class="navbar-header" style=" width: 150px; position: fixed; border-radius: 0%; height: 80%; background-color:lightgray;">
+            <div class="navbar">
+                <a href="@Url.Action("AdminProfile", "Admin")">Home</a>
+                <button class="logout-button">@Html.ActionLink("Logout", "Logout", "Admin")</button>
+            </div>
+            <div class="navbar-header" style=" width: 150px; position: fixed; border-radius: 0%; height: 100%; background-color:lightgray;">
                 <a class="navbar-brand" href="#">ADMIN SITE</a>
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
@@ -170,33 +170,25 @@
                 </ul>
 
             </div>
+            <div class="container body-content" style="margin-left :150px">
+                @RenderBody()
+                <hr />
+                <footer>
+                    <p>&copy; @DateTime.Now.Year - Online Examination System</p>
+                </footer>
+            </div>
+        }
+        else
+        {
+            <div>
+                @RenderBody()
+                <hr />
+                <footer>
+                    <p>&copy; @DateTime.Now.Year - Online Examination System</p>
+                </footer>
+            </div>
         }
     </div>
-    @if (Session["admin_name"] != null )
-    {
-
-
-        <div class="container body-content" style="margin-left :150px">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - Online Examination System</p>
-            </footer>
-        </div>
-
-
-    }
-        
-   else {
-        <div class="container body-content" style="">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Online Examination System</p>
-        </footer>
-    </div>
-}
-   
     
 
     @RenderSection("scripts", required: false)
