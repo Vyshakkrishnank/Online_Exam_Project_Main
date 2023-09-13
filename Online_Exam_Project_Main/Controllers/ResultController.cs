@@ -39,34 +39,49 @@ namespace Online_Exam_Project_Main.Controllers
         // GET: /Result/Create
         public ActionResult Create()
         {
+            if (Session["correctAns"] != null)
+            {
+                int score = (int)Session["correctAns"];
+                if (score >= 9)
+                {
+                    ViewBag.grade = "A+";
+                    ViewBag.quality = "Best";
+                }
+                else if (score >= 8)
+                {
+                    ViewBag.grade = "A";
+                    ViewBag.quality = "Better";
+                }
+                else if (score >= 5)
+                {
+                    ViewBag.grade = "B";
+                    ViewBag.quality = "Good";
+                }
+                else
+                {
+                    ViewBag.grade = "F";
+                    ViewBag.quality = "Fail";
+                }
 
-            int score =(int) Session["correctAns"];
-            if (score>=9)
-            {
-                ViewBag.grade = "A+";
-                ViewBag.quality = "Best";
+                Session["grade"] = ViewBag.grade;
+                Session["quality"] = ViewBag.quality;
+
+                ViewBag.candidate_id = Session["candidate_id"];
+                ViewBag.exam_id = Session["exid"];
+                
             }
-            else if (score >= 8)
+            else
             {
-                ViewBag.grade = "A";
-                ViewBag.quality = "Better";
-            }
-            else if (score >= 5)
-            {
-                ViewBag.grade = "B";
-                ViewBag.quality = "Good";
-            }
-            else  
-            {
+                
                 ViewBag.grade = "F";
                 ViewBag.quality = "Fail";
+                Session["grade"] = ViewBag.grade;
+                Session["quality"] = ViewBag.quality;
+                Session["correctAns"] = 0;
+                ViewBag.candidate_id = Session["candidate_id"];
+                ViewBag.exam_id = Session["exid"];
+
             }
-
-            Session["grade"]=ViewBag.grade;
-            Session["quality"] = ViewBag.quality;
-
-            ViewBag.candidate_id = Session["candidate_id"];
-            ViewBag.exam_id = Session["exid"];
             return View();
         }
 
