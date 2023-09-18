@@ -9,29 +9,8 @@
 
 
 
-<div id="clockdiv">
-    <h1 style="color: red">
-
-        <div class="minutes" style="float: left"> </div>
-        <p style="float: left">:</p>
-        <div class="seconds"></div>
-    </h1>
-</div>
-
 <script>
-
-
-    function getTimeRemaining(endtime) {
-        var t = Date.parse(endtime) - Date.parse(new Date());
-        var seconds = Math.floor((t / 1000) % 60);
-        var minutes = Math.floor((t / 1000 / 60) % 1);
-
-        return {
-            'total': t,
-            'minutes': minutes,
-            'seconds': seconds
-        };
-    }
+    // ... (your existing timer code)
 
     function initializeClock(id, endtime) {
         var clock = document.getElementById(id);
@@ -42,14 +21,17 @@
         function updateClock() {
             var t = getTimeRemaining(endtime);
 
-
             minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
             secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
 
             if (t.total <= 0) {
                 clearInterval(timeinterval);
+                document.getElementById(id).innerHTML = 'EXPIRED!';
 
-
+                // Automatically trigger the "Next" button click after one minute
+                setTimeout(function () {
+                    document.getElementById('nextButton').click();
+                }, 1000); // Delay for 1 second before triggering the click
             }
         }
 
@@ -57,41 +39,11 @@
         var timeinterval = setInterval(updateClock, 1000);
     }
 
-    var deadline = new Date(Date.parse(new Date()) + 60 * 60 * 1000);
+    var deadline = new Date(Date.parse(new Date()) + 60 * 1000); // Set the deadline to one minute (60 seconds)
     initializeClock('clockdiv', deadline);
-
-    // ...................................
-    var _second = 1000;
-    var _minute = _second * 60;
-    var _hour = _minute * 60;
-    var _day = _hour * 24;
-    var timer;
-    var end = new Date().getTime() + (60 * _second);
-    //
-
-    function showRemaining() {
-        var now = new Date();
-        var distance = end - now;
-        if (distance < 0) {
-
-            clearInterval(timer);
-            document.getElementById('countdown').innerHTML = 'EXPIRED!';
-
-            return;
-        }
-        var days = Math.floor(distance / _day);
-        var hours = Math.floor((distance % _day) / _hour);
-        var minutes = Math.floor((distance % _hour) / _minute);
-        var seconds = Math.floor((distance % _minute) / _second);
-
-        document.getElementById('countdown').innerHTML = days + 'days ';
-        document.getElementById('countdown').innerHTML += hours + 'hrs ';
-        document.getElementById('countdown').innerHTML += minutes + 'mins ';
-        document.getElementById('countdown').innerHTML += seconds + 'secs';
-    }
-
-    timer = setInterval(showRemaining, 1000);
 </script>
+
+
 <div>
     @Html.Partial("_QuestionPartial")
 </div>
