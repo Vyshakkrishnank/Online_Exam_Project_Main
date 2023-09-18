@@ -361,3 +361,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Online_Exam_Project_Main/Controllers/ShowQuestionController.cs
+/.gitignore
+/.gitignore
+/Online_Exam_Project_Main/Controllers/ResultController.cs
+/.gitignore

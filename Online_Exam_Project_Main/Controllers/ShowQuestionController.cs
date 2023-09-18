@@ -19,40 +19,47 @@ namespace Online_Exam_Project_Main.Controllers
         [HttpPost]
         public ActionResult Index(DrpList drp)
         {
-
-            ViewBag.drpData = drp;
-            ViewBag.questionNo = drp.QuestionNo;
-
-            TempData["a"] = drp.QuestionNo;
-
-            if (drp.QuestionNo == 1)
-            //if (questionNo == null || id == null)
+            if (ModelState.IsValid)
             {
-                Session["exid"] = drp.examid;
+                ViewBag.drpData = drp;
+                ViewBag.questionNo = drp.QuestionNo;
 
-                Questions_tbl SingleQuestion = db.Questions_tbl.SingleOrDefault(m => m.qus_id == 1 && m.exam_id == drp.examid);
+                TempData["a"] = drp.QuestionNo;
 
-                
-                TempData["qData"] = SingleQuestion;
-                return RedirectToAction("NextQuestion");
-                //return View(SingleQuestion);
+                if (drp.QuestionNo == 1)
+                //if (questionNo == null || id == null)
+                {
+                    Session["exid"] = drp.examid;
+
+                    Questions_tbl SingleQuestion = db.Questions_tbl.SingleOrDefault(m => m.qus_id == 1 && m.exam_id == drp.examid);
+
+
+                    TempData["qData"] = SingleQuestion;
+                    return RedirectToAction("NextQuestion");
+                    //return View(SingleQuestion);
+                }
+                else
+                {
+
+
+                    Questions_tbl SingleQuestion = db.Questions_tbl.SingleOrDefault(m => m.qus_id == drp.QuestionNo && m.exam_id == drp.examid);
+                    int qus = (int)drp.QuestionNo;
+
+                    //for (int i = 0; i <= drp.QuestionNo; i++)
+                    //{
+                    //    ViewBag.questionNo = qusno + i;
+                    //}
+
+
+                    return View(SingleQuestion);
+                }
             }
             else
             {
-
-
-                Questions_tbl SingleQuestion = db.Questions_tbl.SingleOrDefault(m => m.qus_id == drp.QuestionNo && m.exam_id == drp.examid);
-                int qus = (int)drp.QuestionNo;
-
-                //for (int i = 0; i <= drp.QuestionNo; i++)
-                //{
-                //    ViewBag.questionNo = qusno + i;
-                //}
-
-
-                return View(SingleQuestion);
+                TempData["Message"] = "Please Select an Exam";
+                return RedirectToAction("Index", "SelectExam");
             }
-
+           // return RedirectToAction("Index","SelectExam");
         }
 
 

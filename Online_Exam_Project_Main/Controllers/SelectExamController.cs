@@ -14,19 +14,21 @@ namespace Online_Exam_Project_Main.Controllers
         // GET: /SelectExam/
         public ActionResult Index()
         {
-            int count = 0;
-            var name = db.Exam_tbl.ToList();
-            SelectList list = new SelectList(name, "exam_id", "exam_title");
-            DrpList drp = new DrpList();
-            drp.Examlist = name;
-            drp.QuestionNo = 1;
-            ViewBag.name = list;
-            Session["name"] = ViewBag.name;
-
-
-
-
-            return View(drp);
+            if (ModelState.IsValid)
+            {
+                int count = 0;
+                var name = db.Exam_tbl.ToList();
+                SelectList list = new SelectList(name, "exam_id", "exam_title");
+                DrpList drp = new DrpList();
+                drp.Examlist = name;
+                drp.QuestionNo = 1;
+                ViewBag.name = list;
+                Session["name"] = ViewBag.name;
+                string message = TempData["Message"] as string;
+                drp.msg= message;
+                return View(drp);
+            }
+            return null;
         }
         [HttpPost]
         public void SetFromDrp(int val)
